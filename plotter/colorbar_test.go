@@ -35,6 +35,31 @@ func TestColorBar_horizontal(t *testing.T) {
 	cmpimg.CheckPlot(ExampleColorBar_horizontal, t, "colorBarHorizontal.png")
 }
 
+// This example shows how to create a ColorBar on a log-transformed axis.
+func ExampleColorBar_horizontal_log() {
+	p, err := plot.New()
+	if err != nil {
+		log.Panic(err)
+	}
+	l := &ColorBar{ColorMap: moreland.ExtendedBlackBody()}
+	l.ColorMap.SetMin(1)
+	l.ColorMap.SetMax(100)
+	p.Add(l)
+	p.HideY()
+	p.X.Padding = 0
+	p.Title.Text = "Title"
+	p.X.Scale = plot.LogScale{}
+	p.X.Tick.Marker = plot.LogTicks{}
+
+	if err = p.Save(300, 48, "testdata/colorBarHorizontalLog.png"); err != nil {
+		log.Panic(err)
+	}
+}
+
+func TestColorBar_horizontal_log(t *testing.T) {
+	cmpimg.CheckPlot(ExampleColorBar_horizontal_log, t, "colorBarHorizontalLog.png")
+}
+
 func ExampleColorBar_vertical() {
 	p, err := plot.New()
 	if err != nil {
